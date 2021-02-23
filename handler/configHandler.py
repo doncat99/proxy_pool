@@ -40,11 +40,6 @@ class ConfigHandler(withMetaclass(Singleton)):
     def tableName(self):
         return os.getenv("TABLE_NAME", setting.TABLE_NAME)
 
-    @property
-    def fetchers(self):
-        reload_six(setting)
-        return setting.PROXY_FETCHER
-
     @LazyProperty
     def verifyUrl(self):
         return os.getenv("VERIFY_URL", setting.VERIFY_URL)

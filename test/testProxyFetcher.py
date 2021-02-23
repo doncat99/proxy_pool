@@ -12,18 +12,17 @@
 """
 __author__ = 'JHao'
 
-from fetcher.proxyFetcher import ProxyFetcher
-from handler.configHandler import ConfigHandler
+from agent.agent_base import Agent
 
 
 def testProxyFetcher():
-    conf = ConfigHandler()
-    proxy_getter_functions = conf.fetchers
-    for proxyGetter in proxy_getter_functions:
+    for agent in Agent.proxies:
+        fetcher = agent()
+        fetch_name = fetcher.__class__.__name__
         proxy_count = 0
-        for proxy in getattr(ProxyFetcher, proxyGetter.strip())():
+        for proxy in fetcher.extract_proxy():
             if proxy:
-                print('{func}: fetch proxy {proxy},proxy_count:{proxy_count}'.format(func=proxyGetter, proxy=proxy,
+                print('{func}: fetch proxy {proxy},proxy_count:{proxy_count}'.format(func=fetch_name, proxy=proxy,
                                                                                      proxy_count=proxy_count))
                 proxy_count += 1
 

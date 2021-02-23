@@ -25,12 +25,6 @@ def testConfig():
     print(conf.serverPort)
     print(conf.serverHost)
     print(conf.tableName)
-    assert isinstance(conf.fetchers, list)
-    print(conf.fetchers)
-
-    for _ in range(10):
-        print(conf.fetchers)
-        sleep(5)
 
 
 if __name__ == '__main__':

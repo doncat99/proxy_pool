@@ -14,9 +14,8 @@ __author__ = 'JHao'
 
 from handler.logHandler import LogHandler
 from handler.proxyHandler import ProxyHandler
-from fetcher.proxyFetcher import ProxyFetcher
 from handler.configHandler import ConfigHandler
-
+from agent.agent_base import Agent
 
 class Fetcher(object):
     name = "fetcher"
@@ -33,18 +32,11 @@ class Fetcher(object):
         """
         proxy_set = set()
         self.log.info("ProxyFetch : start")
-        for fetch_name in self.conf.fetchers:
-            self.log.info("ProxyFetch - {func}: start".format(func=fetch_name))
-            fetcher = getattr(ProxyFetcher, fetch_name, None)
-            if not fetcher:
-                self.log.error("ProxyFetch - {func}: class method not exists!")
-                continue
-            if not callable(fetcher):
-                self.log.error("ProxyFetch - {func}: must be class method")
-                continue
-
+        for agent in Agent.proxies:
+            fetcher = agent()
+            fetch_name = fetcher.__class__.__name__
             try:
-                for proxy in fetcher():
+                for proxy in fetcher.extract_proxy():
                     if proxy in proxy_set:
                         self.log.info('ProxyFetch - %s: %s exist' % (fetch_name, proxy.ljust(23)))
                         continue
