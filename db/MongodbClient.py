@@ -27,7 +27,7 @@ class MongodbClient(object):
 
     def get(self, proxy):
         data = self.db[self.name].find_one({'proxy': proxy})
-        return data['num'] if data != None else None
+        return data['num'] if data is not None else None
 
     def put(self, proxy, num=1):
         if self.db[self.name].find_one({'proxy': proxy}):

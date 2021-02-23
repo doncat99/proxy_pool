@@ -16,17 +16,18 @@ import json
 
 
 class Proxy(object):
-
-    def __init__(self, proxy, fail_count=0, region="", proxy_type="",
-                 source="", check_count=0, last_status="", last_time=""):
+    def __init__(self, proxy, scheme="", region="", anonymity="", source="",
+                 check_count=0, fail_count=0, last_status="", last_time="", response_time=""):
         self._proxy = proxy
-        self._fail_count = fail_count
+        self._scheme = scheme
         self._region = region
-        self._type = proxy_type
+        self._anonymity = anonymity
         self._source = source
         self._check_count = check_count
+        self._fail_count = fail_count
         self._last_status = last_status
         self._last_time = last_time
+        self._response_time = response_time
 
     @classmethod
     def createFromJson(cls, proxy_json):
@@ -37,13 +38,15 @@ class Proxy(object):
         """
         proxy_dict = json.loads(proxy_json)
         return cls(proxy=proxy_dict.get("proxy", ""),
-                   fail_count=proxy_dict.get("fail_count", 0),
+                   scheme=proxy_dict.get("scheme", ""),
                    region=proxy_dict.get("region", ""),
-                   proxy_type=proxy_dict.get("type", ""),
+                   anonymity=proxy_dict.get("type", ""),
                    source=proxy_dict.get("source", ""),
                    check_count=proxy_dict.get("check_count", 0),
+                   fail_count=proxy_dict.get("fail_count", 0),
                    last_status=proxy_dict.get("last_status", ""),
-                   last_time=proxy_dict.get("last_time", "")
+                   last_time=proxy_dict.get("last_time", ""),
+                   response_time=proxy_dict.get("response_time", "")
                    )
 
     @property
@@ -52,9 +55,9 @@ class Proxy(object):
         return self._proxy
 
     @property
-    def fail_count(self):
-        """ 检测失败次数 """
-        return self._fail_count
+    def scheme(self):
+        """ Http/Https """
+        return self._scheme
 
     @property
     def region(self):
@@ -62,9 +65,9 @@ class Proxy(object):
         return self._region
 
     @property
-    def type(self):
+    def anonymity(self):
         """ 透明/匿名/高匿 """
-        return self._type
+        return self._anonymity
 
     @property
     def source(self):
@@ -77,6 +80,11 @@ class Proxy(object):
         return self._check_count
 
     @property
+    def fail_count(self):
+        """ 检测失败次数 """
+        return self._fail_count
+
+    @property
     def last_status(self):
         """ 最后一次检测结果  1 -> 可用; 0 -> 不可用"""
         return self._last_status
@@ -87,16 +95,23 @@ class Proxy(object):
         return self._last_time
 
     @property
+    def response_time(self):
+        """ 响应时间 """
+        return self._response_time
+
+    @property
     def to_dict(self):
         """ 属性字典 """
         return {"proxy": self._proxy,
-                "fail_count": self._fail_count,
+                "scheme": self._scheme,
                 "region": self._region,
-                "type": self._type,
+                "anonymity": self._anonymity,
                 "source": self._source,
                 "check_count": self.check_count,
+                "fail_count": self._fail_count,
                 "last_status": self.last_status,
-                "last_time": self.last_time}
+                "last_time": self.last_time,
+                "response_time": self.response_time}
 
     @property
     def to_json(self):
@@ -104,17 +119,17 @@ class Proxy(object):
         return json.dumps(self.to_dict, ensure_ascii=False)
 
     # --- proxy method ---
-    @fail_count.setter
-    def fail_count(self, value):
-        self._fail_count = value
+    @scheme.setter
+    def scheme(self, value):
+        self._scheme = value
 
     @region.setter
     def region(self, value):
         self._region = value
 
-    @type.setter
-    def type(self, value):
-        self._type = value
+    @anonymity.setter
+    def anonymity(self, value):
+        self._anonymity = value
 
     @source.setter
     def source(self, value):
@@ -124,6 +139,10 @@ class Proxy(object):
     def check_count(self, value):
         self._check_count = value
 
+    @fail_count.setter
+    def fail_count(self, value):
+        self._fail_count = value
+
     @last_status.setter
     def last_status(self, value):
         self._last_status = value
@@ -131,3 +150,7 @@ class Proxy(object):
     @last_time.setter
     def last_time(self, value):
         self._last_time = value
+
+    @response_time.setter
+    def response_time(self, value):
+        self._response_time = value

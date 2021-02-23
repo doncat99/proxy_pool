@@ -17,6 +17,7 @@ from threading import Thread
 from datetime import datetime
 
 from helper.proxy import Proxy
+from helper.update import updateProxyInfo
 from util.validators import validators
 from handler.logHandler import LogHandler
 from handler.proxyHandler import ProxyHandler
@@ -38,6 +39,8 @@ def proxyCheck(proxy_obj):
 
     if __proxyCheck(proxy_obj.proxy):
         # 检测通过 更新proxy属性
+        proxy_obj = updateProxyInfo(proxy_obj)
+
         proxy_obj.check_count += 1
         proxy_obj.last_status = 1
         proxy_obj.last_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -79,15 +82,18 @@ class Checker(Thread):
             if self.type == "raw":
                 if proxy.last_status:
                     if self.proxy_handler.exists(proxy):
-                        self.log.info('ProxyCheck - {}  : {} exists'.format(self.name, proxy.proxy.ljust(23)))
+                        self.log.info('ProxyCheck - {}  : {} exists, {} {} {}'.format(
+                            self.name, proxy.proxy.ljust(23), proxy.scheme, proxy.region, proxy.anonymity))
                     else:
-                        self.log.info('ProxyCheck - {}  : {} success'.format(self.name, proxy.proxy.ljust(23)))
+                        self.log.info('ProxyCheck - {}  : {} success, {} {} {}'.format(
+                            self.name, proxy.proxy.ljust(23), proxy.scheme, proxy.region, proxy.anonymity))
                         self.proxy_handler.put(proxy)
                 else:
                     self.log.info('ProxyCheck - {}  : {} fail'.format(self.name, proxy.proxy.ljust(23)))
             else:
                 if proxy.last_status:
-                    self.log.info('ProxyCheck - {}  : {} pass'.format(self.name, proxy.proxy.ljust(23)))
+                    self.log.info('ProxyCheck - {}  : {} pass, {} {} {}'.format(
+                        self.name, proxy.proxy.ljust(23), proxy.scheme, proxy.region, proxy.anonymity))
                     self.proxy_handler.put(proxy)
                 else:
                     if proxy.fail_count / proxy.check_count > self.conf.maxFailRate:
