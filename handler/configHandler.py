@@ -16,7 +16,7 @@ import os
 import setting
 from util.singleton import Singleton
 from util.lazyProperty import LazyProperty
-from util.six import reload_six, withMetaclass
+from util.six import withMetaclass
 
 
 class ConfigHandler(withMetaclass(Singleton)):

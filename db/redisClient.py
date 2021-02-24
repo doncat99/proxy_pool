@@ -16,6 +16,7 @@ __author__ = 'JHao'
 from redis.connection import BlockingConnectionPool
 from random import choice
 from redis import Redis
+import json
 
 
 class RedisClient(object):
@@ -48,11 +49,28 @@ class RedisClient(object):
         proxies = self.__conn.hkeys(self.name)
         if not proxies:
             return None
-        if proxy_str is None:
-            proxy = choice(proxies)
-        else:
+
+        if proxy_str is not None:
             proxy = proxy_str
-        return self.__conn.hget(self.name, proxy)
+            return self.__conn.hget(self.name, proxy)
+
+        proxy_dict = self.__conn.hgetall(self.name)
+
+        http_proxies = []
+        https_proxies = []
+
+        for key, value in proxy_dict.items():
+            value = json.loads(value)
+            if value['scheme'] == 'http':
+                http_proxies.append(f"http://{value['proxy']}/")
+            elif value['scheme'] == 'https':
+                https_proxies.append(f"https://{value['proxy']}/")
+
+        result = {
+            'http': choice(http_proxies) if len(http_proxies) > 0 else '',
+            'https': choice(https_proxies) if len(https_proxies) > 0 else '',
+        }
+        return json.dumps(result)
 
     def put(self, proxy_obj):
         """

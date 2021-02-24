@@ -121,7 +121,8 @@ class DbClient(withMetaclass(Singleton)):
         return self.client.getAll()
 
     def clear(self):
-        return self.client.clear()
+        self.client.clear()
+        return 'done'
 
     def changeTable(self, name):
         self.client.changeTable(name)

@@ -58,7 +58,7 @@ def index():
 @app.route('/get/')
 def get():
     proxy = proxy_handler.get()
-    return proxy.to_dict if proxy else {"code": 0, "src": "no proxy"}
+    return proxy if proxy else {"code": 0, "src": "no proxy"}
 
 
 @app.route('/update_check_count', methods=['GET'])

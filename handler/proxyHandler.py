@@ -31,9 +31,13 @@ class ProxyHandler(object):
         :return:
         """
         proxy = self.db.get()
-        if proxy:
-            return Proxy.createFromJson(proxy)
-        return None
+        if not proxy:
+            return None
+
+        if 'http' in proxy and 'https' in proxy:
+            return proxy
+
+        return Proxy.createFromJson(proxy)
 
     def update_check_count(self, proxy_str):
         proxy = self.db.get(proxy_str)
