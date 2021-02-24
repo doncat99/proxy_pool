@@ -41,8 +41,12 @@ class ConfigHandler(withMetaclass(Singleton)):
         return os.getenv("TABLE_NAME", setting.TABLE_NAME)
 
     @LazyProperty
-    def verifyUrl(self):
-        return os.getenv("VERIFY_URL", setting.VERIFY_URL)
+    def verifyHttpUrl(self):
+        return os.getenv("VERIFY_HTTP_URL", setting.VERIFY_HTTP_URL)
+
+    @LazyProperty
+    def verifyHttpsUrl(self):
+        return os.getenv("VERIFY_HTTPS_URL", setting.VERIFY_HTTPS_URL)
 
     @LazyProperty
     def verifyTimeout(self):

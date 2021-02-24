@@ -44,8 +44,8 @@ TABLE_NAME = 'use_proxy'
 
 
 # ############# proxy validator #################
-# VERIFY_URL = "http://www.baidu.com"
-VERIFY_URL = "https://finance.yahoo.com/"
+VERIFY_HTTP_URL = "http://www.httpvshttps.com/"
+VERIFY_HTTPS_URL = "https://www.httpvshttps.com/"
 
 VERIFY_TIMEOUT = 10
 

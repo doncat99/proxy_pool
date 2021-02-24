@@ -37,7 +37,7 @@ def proxyCheck(proxy_obj):
                 return False
         return True
 
-    if __proxyCheck(proxy_obj.proxy):
+    if __proxyCheck(proxy_obj):
         # 检测通过 更新proxy属性
         proxy_obj = updateProxyInfo(proxy_obj)
 
