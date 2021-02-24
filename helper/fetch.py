@@ -15,7 +15,8 @@ __author__ = 'JHao'
 from handler.logHandler import LogHandler
 from handler.proxyHandler import ProxyHandler
 from handler.configHandler import ConfigHandler
-from agent.agent_base import Agent
+from agent import Agent
+
 
 class Fetcher(object):
     name = "fetcher"
@@ -32,6 +33,7 @@ class Fetcher(object):
         """
         proxy_set = set()
         self.log.info("ProxyFetch : start")
+        # print("Agent", Agent.proxies)
         for agent in Agent.proxies:
             fetcher = agent()
             fetch_name = fetcher.__class__.__name__

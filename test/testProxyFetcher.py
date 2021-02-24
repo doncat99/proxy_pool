@@ -12,7 +12,7 @@
 """
 __author__ = 'JHao'
 
-from agent.agent_base import Agent
+from agent import Agent
 
 
 def testProxyFetcher():

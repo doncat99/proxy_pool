@@ -14,7 +14,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from util.webRequest import WebRequest
-from agent.agent_base import Agent
+from agent import Agent
 
 logger = logging.getLogger(__name__)
 
