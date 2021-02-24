@@ -60,17 +60,20 @@ def get():
     proxy = proxy_handler.get()
     return proxy.to_dict if proxy else {"code": 0, "src": "no proxy"}
 
+
 @app.route('/update_check_count', methods=['GET'])
 def update_check_count():
     proxy_str = request.args.get('proxy')
     proxy = proxy_handler.update_check_count(proxy_str)
     return proxy.to_dict if proxy else {"code": 0, "src": "no proxy"}
 
+
 @app.route('/update_fail_count', methods=['GET'])
 def update_fail_count():
     proxy_str = request.args.get('proxy')
     proxy = proxy_handler.update_fail_count(proxy_str)
     return proxy.to_dict if proxy else {"code": 0, "src": "no proxy"}
+
 
 @app.route('/pop/')
 def pop():
@@ -100,6 +103,12 @@ def delete():
 @app.route('/get_status/')
 def getStatus():
     status = proxy_handler.getCount()
+    return status
+
+
+@app.route('/clear/')
+def clear():
+    status = proxy_handler.clear()
     return status
 
 

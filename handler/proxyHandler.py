@@ -101,3 +101,11 @@ class ProxyHandler(object):
         """
         total_use_proxy = self.db.getCount()
         return {'count': total_use_proxy}
+
+    def clear(self):
+        """
+        check proxy exists
+        :param proxy:
+        :return:
+        """
+        return self.db.clear()

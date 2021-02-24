@@ -40,7 +40,7 @@ class Proxy(object):
         return cls(proxy=proxy_dict.get("proxy", ""),
                    scheme=proxy_dict.get("scheme", ""),
                    region=proxy_dict.get("region", ""),
-                   anonymity=proxy_dict.get("type", ""),
+                   anonymity=proxy_dict.get("anonymity", ""),
                    source=proxy_dict.get("source", ""),
                    check_count=proxy_dict.get("check_count", 0),
                    fail_count=proxy_dict.get("fail_count", 0),

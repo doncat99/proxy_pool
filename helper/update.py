@@ -50,7 +50,7 @@ def _updateProxyInfo(proxy_object, scheme):
     # set country
     try:
         host = proxy_object.proxy.split(':')[0]
-        proxy_object.country = proxy_object.country or geoip_reader.country(host).country.iso_code
+        proxy_object.region = proxy_object.region or geoip_reader.country(host).country.iso_code
     except:
         pass
 
